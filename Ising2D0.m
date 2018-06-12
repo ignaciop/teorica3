@@ -1,10 +1,12 @@
 %Script general para hacer una corrida  a un set de parametros
 %(beta, lado de la red)
 
-%Lado de la red,
+%Lado de la red
 L=10;
+
 %beta = 1/T
 beta=0.1;
+
 
 %propongo un estado inicial al azar
 %S es una matriz de 1 y -1 indicando las dos proyecciones de
@@ -12,9 +14,63 @@ beta=0.1;
 S=2*(rand(L,L)>0.5) -1;
 
 npre = 100;
-npasos = 1e3;
+npasos = 2e5;
 energia=zeros(npasos+1,1);
 magnet=zeros(npasos+1,1);
+
+%Funcion que genera una matriz de nxm con los numeros enteros generados uniformemente en el intervalo (a,b)
+function rn = randint(n,m,a,b)
+rn = 1 + floor((a-1) + (b-(a-1))* rand(n,m));
+end
+
+function [S,DE,DM] = ising2Dpaso(S,beta)
+L=10;
+indices = randint(1,2,1,L);
+h = indices(1); k = indices(2);
+
+if h == L
+	S(h+1,k) = S(1,k);
+endif
+
+if k == L
+	S(h,k+1) = S(h,1);
+endif
+
+prox_vecinos = [S(h+1,k);S(h,k+1)];
+
+DE = 2*S(h,k)*sum(prox_vecinos);
+
+if (DE <= 0 || rand() <= exp(-beta*DE))
+	S(h,k) = -S(h,k);
+endif
+
+DM = 2*S(h,k);
+end
+
+function e = En(S)
+e = 0;
+L=10;
+for h=1:L
+	for k=1:L
+
+	if h == L
+		S(h+1,k) = S(1,k);
+	endif
+
+	if k == L
+		S(h,k+1) = S(h,1);
+	endif
+
+
+	prox_vecinos = [S(h+1,k);S(h,k+1)];
+
+	e = e + S(h,k)*sum(prox_vecinos);
+	endfor
+endfor
+
+e = -0.5*e;
+end
+
 
 %Pretermalizo
 %La funcion ising2Dpaso hace un nuevo elemento de la cadena de Markov. La tienen que escribir uds!
@@ -43,3 +99,7 @@ end
 plot(energia/(L*L))
 xlabel('paso')
 ylabel('Energia por sitio')
+
+plot(magnet/(L*L))
+xlabel('paso')
+ylabel('Magnetizacion por sitio')
