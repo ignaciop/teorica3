@@ -2,7 +2,7 @@
 %(beta, lado de la red)
 
 %Lado de la red
-L=10;
+global L=10;
 
 %beta = 1/T
 beta=0.1;
@@ -24,7 +24,7 @@ rn = 1 + floor((a-1) + (b-(a-1))* rand(n,m));
 end
 
 function [S,DE,DM] = ising2Dpaso(S,beta)
-L=10;
+global L;
 indices = randint(1,2,1,L);
 h = indices(1); k = indices(2);
 
@@ -44,12 +44,13 @@ if (DE <= 0 || rand() <= exp(-beta*DE))
 	S(h,k) = -S(h,k);
 endif
 
-DM = 2*S(h,k);
+%DM = 2*S(h,k);
+DM = sum(sum(S)); %Probar con esto!!
 end
 
 function e = En(S)
+global L;
 e = 0;
-L=10;
 for h=1:L
 	for k=1:L
 
