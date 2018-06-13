@@ -3,6 +3,7 @@
 
 import numpy as np
 from matplotlib import pyplot
+from random import randint
 
 #############################################################
 # estas son las funciones que tienen que escribir ustedes
@@ -10,19 +11,51 @@ from matplotlib import pyplot
 
 def calcMagnet(S):
     
-    M = np.sum(S)
+	M = np.sum(S)
     
-    return M
+	return M
 
 def calcEnergia(S):
-    
-    #    return E
-    return 0
+	e = 0
+	for i in range(L-1):
+		for j in range(L-1):
+			if (i == L-1):
+				i = -1
+	
+			if (j == L-1):
+				j = -1
+		
+			prox_vecinos = np.zeros(2)
+			prox_vecinos[0] = S[i+1][j]
+			prox_vecinos[1] = S[i][j+1]
+	
+			e = e + S[i][j]*sum(prox_vecinos)
+			
+	e = -0.5*e
+	return e
 
 def ising2Dpaso(S, beta):
-    
+	i = randint(0,L-1)
+	j = randint(0,L-1)
+	
+	if (i == L-1):
+		i = -1
+	
+	if (j == L-1):
+		j = -1
+		
+	prox_vecinos = np.zeros(2)
+	prox_vecinos[0] = S[i+1][j]
+	prox_vecinos[1] = S[i][j+1]
+	
+	dE = 2*S[i][j]*sum(prox_vecinos)
+	
+	if ((dE <= 0) or (np.random.rand() <= np.exp(-beta*dE))):
+		S[i][j] = -S[i][j]
     #    return nuevo_S, dE, dM
-    return S, 0, 0
+
+	dM = np.sum(S)
+	return S, dE, dM
 
 #############################################################
 
@@ -56,12 +89,12 @@ energia[0] = calcEnergia(S)
 magnet[0] = calcMagnet(S)
 
 for n in range(npasos-1):
-    S, dE, dM = ising2Dpaso(S,beta);
-    energia[n+1] = energia[n] + dE;
-    magnet[n+1] = magnet[n] + dM;
-    
+	S, dE, dM = ising2Dpaso(S,beta);
+	energia[n+1] = energia[n] + dE;
+	magnet[n+1] = magnet[n] + dM;
+	
     #cada 10 pasos muestro el nuevo estado
-    if n%10 == 0:
-        pyplot.imshow(S,interpolation='none')
-        pyplot.title("n=%i beta=%.2f mag=%.2f energia=%.2f"%(n,beta,magnet[n],energia[n]))
-        pyplot.draw()
+	if n%10 == 0:
+		pyplot.imshow(S,interpolation='none')
+		pyplot.title("n=%i beta=%.2f mag=%.2f energia=%.2f"%(n,beta,magnet[n],energia[n]))
+		pyplot.show()

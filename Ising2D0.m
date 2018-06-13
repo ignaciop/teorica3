@@ -65,11 +65,11 @@ for h=1:L
 
 	prox_vecinos = [S(h+1,k);S(h,k+1)];
 
-	e = e + S(h,k)*sum(prox_vecinos);
+	e = e - S(h,k)*sum(prox_vecinos);
 	endfor
 endfor
 
-e = -0.5*e;
+e = e/4;
 end
 
 
