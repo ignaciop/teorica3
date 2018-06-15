@@ -1,34 +1,34 @@
 function e = En(S)
     e = 0;
     
-    for h=1:length(S)
-        for k=1:length(S)
+    for i=1:length(S)
+        for j=1:length(S)
             
-            if h == 1
-                hm = length(S);
+            if i == 1
+                im = length(S);
             else
-                hm = h - 1;
+                im = i - 1;
             end
 
-            if h == length(S)
-                hp = 1;
+            if i == length(S)
+                ip = 1;
             else
-                hp = h + 1;
+                ip = i + 1;
             end
             
-            if k == 1
-                km = length(S);
+            if j == 1
+                jm = length(S);
             else
-                km = k - 1;
+                jm = j - 1;
             end
     
-            if k == length(S)
-                kp = 1;
+            if j == length(S)
+                jp = 1;
             else
-                kp = k + 1;
+                jp = j + 1;
             end
 
-            e = e - S(h,k)*(S(hp,k)+S(h,kp)+S(hm,k)+S(h,km));
+            e = e - S(i,j)*(S(ip,j)+S(i,jp)+S(im,j)+S(i,jm));
         end
     end
     e = e/4;

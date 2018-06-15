@@ -3,37 +3,37 @@ function [S,dE,dM] = ising2Dpaso(S,beta)
     for a=1:length(S)
         for b=1:length(S)
             indices=randint(1,2,1,length(S));
-            h = indices(1); k = indices(2);
+            i = indices(1); j = indices(2);
             
-            if h == 1
-                hm = length(S);
+            if i == 1
+                im = length(S);
             else
-                hm = h - 1;
+                im = i - 1;
             end
 
-            if h == length(S)
-                hp = 1;
+            if i == length(S)
+                ip = 1;
             else
-                hp = h + 1;
+                ip = i + 1;
             end
             
-            if k == 1
-                km = length(S);
+            if j == 1
+                jm = length(S);
             else
-                km = k - 1;
+                jm = j - 1;
             end
     
-            if k == length(S)
-                kp = 1;
+            if j == length(S)
+                jp = 1;
             else
-                kp = k + 1;
+                jp = j + 1;
             end
 
-            dE = 2*S(h,k)*(S(hp,k)+S(h,kp)+S(hm,k)+S(h,km));
+            dE = 2*S(i,j)*(S(ip,j)+S(i,jp)+S(im,j)+S(i,jm));
             
             if ((dE <= 0) || (rand() < exp(-beta*dE)))
-                S(h,k) = -S(h,k);
-                dM = dM + 2*S(h,k);
+                S(i,j) = -S(i,j);
+                dM = dM + 2*S(i,j);
             end
         end
     end            

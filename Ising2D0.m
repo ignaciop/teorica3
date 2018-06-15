@@ -2,8 +2,8 @@
 %(beta, lado de la red)
 
 %Lado de la red
-L = 64;
-T = 2.3;
+L = 16;
+T = 1.7;
 
 beta = 1/T;
 
