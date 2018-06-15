@@ -18,43 +18,75 @@ def calcEnergia(S):
 	e = 0
 	for i in range(len(S)):
 		for j in range(len(S)):
-			if (i == len(S)-1):
-				i = -1
-	
-			if (j == len(S)-1):
-				j = -1
-	
-			e += -S[i][j]*(S[i+1][j]+S[i][j+1])
+			if i == 0:
+				im = len(S)-1
+			else:
+				im = i -1
 			
-	#e = e/2
-	return e
+			if i == len(S) - 1:
+				ip = 0
+			else:
+				ip = i + 1
+				
+			if j == 0:
+				jm = len(S)-1
+			else:
+				jm = j - 1
+            
+			if j == len(S)-1:
+				jp = 0
+			else:
+				jp = j + 1
+
+			e = e - S[i][j]*(S[ip][j]+S[i][jp]+S[im][j]+S[i][jm])
+ 						
+	return e/4.
 
 def ising2Dpaso(S, beta):
-	i = np.random.randint(0,len(S))
-	j = np.random.randint(0,len(S))
+	dM = 0
+	for h in range(len(S)):
+		for k in range(len(S)):
+			i = np.random.randint(0,len(S))
+			j = np.random.randint(0,len(S))
 	
-	if (i == len(S)-1):
-		i = -1
+			if i == 0:
+				im = len(S)-1
+			else:
+				im = i -1
+			
+			if i == len(S) - 1:
+				ip = 0
+			else:
+				ip = i + 1
+				
+			if j == 0:
+				jm = len(S)-1
+			else:
+				jm = j - 1
+            
+			if j == len(S)-1:
+				jp = 0
+			else:
+				jp = j + 1
+				
+			vecinos = S[i][j]*(S[ip][j]+S[i][jp]+S[im][j]+S[i][jm])
 	
-	if (j == len(S)-1):
-		j = -1
-	
-	dE = 2*S[i][j]*(S[i+1][j]+S[i][j+1])
-	
-	if ((dE <= 0) or (np.random.rand() < np.exp(-beta*dE))):
-		S[i][j] *= -1
-    #    return nuevo_S, dE, dM
+			dE = 2*S[i][j]*vecinos
 
-	dM = S[i][j]
+			if ((dE <= 0) or (np.random.rand() < np.exp(-beta*dE))):
+				S[i][j] *= -1
+				dM += 2*S[i][j]
+	
+	
 	return S, dE, dM
 
 #############################################################
 
 #Aca defino los parámetros y corro la cadena de markov
 #Lado de la red,
-L = 10
-# beta = 1/T
-beta = 0.1
+L = 16
+T = 0.01
+beta = 1/T
 
 #propongo un estado inicial al azar
 #S es una matriz de 1 y -1 indicando las dos proyecciones de
@@ -62,7 +94,7 @@ beta = 0.1
 S = 2*(np.random.rand(L,L)>0.5) -1;
 
 npre = 100
-npasos = 200000
+npasos = 10000
 energia= np.zeros(npasos)
 magnet = np.zeros(npasos)
 
@@ -86,9 +118,19 @@ for n in range(npasos-1):
 	
     #cada 10 pasos muestro el nuevo estado
 	#if n%10 == 0:
-	#	pyplot.imshow(S,interpolation='none')
-	#	pyplot.title("n=%i beta=%.2f mag=%.2f energia=%.2f"%(n,beta,magnet[n],energia[n]))
-	#	pyplot.show()
+		#pyplot.figure(1)
+		#pyplot.imshow(S,interpolation='none')
+		#pyplot.title("n=%i beta=%.2f mag=%.2f energia=%.2f"%(n,beta,magnet[n],energia[n]))
+		#pyplot.show()
 
+pyplot.figure(1)
+pyplot.plot(energia/(L*L))
+pyplot.xlabel('Iteracion')
+pyplot.ylabel('Energia por sitio')
+pyplot.show()
+	
+pyplot.figure(2)
 pyplot.plot(magnet/(L*L))
+pyplot.xlabel('Iteracion')
+pyplot.ylabel('Magnetizacion por sitio')
 pyplot.show()
