@@ -3,7 +3,7 @@
 
 %Lado de la red
 L = 16;
-T = 1.7;
+T = 7;
 
 beta = 1/T;
 
@@ -49,6 +49,7 @@ xlabel('paso')
 ylabel('Energia por sitio')
 
 figure()
-plot(magnet/(L*L))
+title(['L = ' num2str(L)]);
+plot(abs(magnet)/(L*L))
 xlabel('paso')
 ylabel('Magnetizacion por sitio')
