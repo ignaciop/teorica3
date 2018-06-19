@@ -1,40 +1,23 @@
 function [S,dE,dM] = ising2Dpaso(S,beta)
     dM = 0;
-    for a=1:length(S)
-        for b=1:length(S)
-            indices=randint(1,2,1,length(S));
-            i = indices(1); j = indices(2);
+    for a=1:length(S)*length(S)
+        indices = randint(1,2,1,length(S));
+        i = indices(1); j = indices(2);
             
-            if i == 1
-                im = length(S);
-            else
-                im = i - 1;
-            end
+        i1 = mod(i,length(S)) + 1;
+        j1 = mod(j,length(S)) + 1;
+        i2 = mod(i + length(S) - 2,length(S)) + 1;
+        j2 = mod(j + length(S) - 2,length(S)) + 1;
+           
 
-            if i == length(S)
-                ip = 1;
-            else
-                ip = i + 1;
-            end
-            
-            if j == 1
-                jm = length(S);
-            else
-                jm = j - 1;
-            end
-    
-            if j == length(S)
-                jp = 1;
-            else
-                jp = j + 1;
-            end
+        E_old = -S(i,j)*(S(i1,j)+S(i2,j)+S(i,j1)+S(i,j2));
+        E_new = S(i,j)*(S(i1,j)+S(i2,j)+S(i,j1)+S(i,j2));
 
-            dE = 2*S(i,j)*(S(ip,j)+S(i,jp)+S(im,j)+S(i,jm));
-            
-            if ((dE <= 0) || (rand() < exp(-beta*dE)))
-                S(i,j) = -S(i,j);
-                dM = dM + 2*S(i,j);
-            end
+        dE = E_new - E_old;
+        
+        if ((dE <= 0) || (rand() < exp(-beta*dE)))
+            S(i,j) = -S(i,j);
+            dM = dM + 2*S(i,j);
         end
     end            
 end
