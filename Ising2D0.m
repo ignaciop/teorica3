@@ -1,4 +1,4 @@
-function [S, cv, xm] = ising2D0(L,T)
+function [E, M, Cv, Xm] = ising2D0(L,T)
 %Script general para hacer una corrida  a un set de parametros
 %(beta, lado de la red)
 
@@ -14,7 +14,7 @@ beta = 1/T;
 %espin
 S = 2*(rand(L,L) > 0.5) - 1;
 
-npre = 500;
+npre = 100;
 npasos = 5000;
 energia = zeros(npasos + 1,1);
 magnet = zeros(npasos + 1,1);
@@ -31,16 +31,16 @@ end
 %La funcion En calcula la energia de la red. Tambien la tienen que escribir uds!
 energia(1) = En(S);
 magnet(1) = sum(sum(S));
-energia2(1) = 0;
-magnet2(1) = 0;
+energia2(1) = energia(1)*energia(1);
+magnet2(1) = magnet(1)*magnet(1);
 
 for n=1:npasos
     [S, dE, dM] = ising2Dpaso(S,beta);
     
     energia(n+1) = energia(n) + dE;
     magnet(n+1) = magnet(n) + dM;
-    energia2(n+1) = energia(n)^2;
-    magnet2(n+1) = magnet(n)^2;
+    energia2(n+1) = energia2(n) + dE*dE;
+    magnet2(n+1) = magnet2(n) + dM*dM;
 
     %if(mod(n,10) == 0)
      %   imagesc(S);shading flat;
@@ -53,8 +53,9 @@ E = mean(energia);
 M = mean(magnet);
 E2 = mean(energia2);
 M2 = mean(magnet2);
-cv = (E2 - E*E)/(T^2);
-xm = (M2 - M*M)/T;
+Cv = (E2 - E*E)/(T*T);
+Xm = (M2 - M*M)/T;
+
 
 %Otros plots que pueden/deben hacer, sobreescribe los anteriores.
 %figure()
