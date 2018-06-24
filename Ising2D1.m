@@ -15,7 +15,7 @@ Xm_t = [];
 %termodinamicas y las guardo en los vectores definidos anteriormente
 for t=T
 
-    [E, M, Cv, Xm] = Ising2D0(L,t);
+    [E, M, Cv, Xm] = Ising2D0(L,t,3000,'n');
     
       
     Energia_t = [Energia_t; E];
@@ -32,28 +32,28 @@ end
 %Otros plots que pueden/deben hacer, sobreescribe los anteriores.
 figure()
 scatter(T, Energia_t/(L*L),'b.')
-title(['Energia media por sitio para L = ',num2str(L)])
+title(['Energia  media  por  sitio  para  L =  ',num2str(L)])
 legend('Datos')
-xlabel('$T$', 'Interpreter', 'latex')
-ylabel('$\frac{<E>}{L^{2}}$', 'Interpreter', 'latex')
+xlabel('T')
+ylabel('<E> / (L^2)')
 
 figure()
 scatter(T, abs(Magnet_t)/(L*L),'b.')
-title(['Magnetizacion media por sitio para L = ',num2str(L)])
+title(['Magnetizacion  media  por  sitio  para  L =  ',num2str(L)])
 legend('Datos')
-xlabel('$T$', 'Interpreter', 'latex')
-ylabel('$\frac{<M>}{L^{2}}$', 'Interpreter', 'latex')
+xlabel('T')
+ylabel('<M> / (L^2)')
 
 figure()
 scatter(T, Cv_t/(L*L),'r.')
-title(['Calor especifico por sitio para L = ',num2str(L)])
+title(['Calor  especifico  por  sitio  para  L =  ',num2str(L)])
 legend('Datos')
-xlabel('$T$', 'Interpreter', 'latex')
-ylabel('$\frac{C_{v}}{L^{2}}$', 'Interpreter', 'latex')
+xlabel('T')
+ylabel('Cv / (L^2)')
 
 figure()
 scatter(T, Xm_t/(L*L),'r.')
-title(['Susceptibilidad magnetica por sitio para L = ',num2str(L)])
+title(['Susceptibilidad  magnetica  por  sitio  para  L =  ',num2str(L)])
 legend('Datos')
-xlabel('$T$', 'Interpreter', 'latex')
-ylabel('$\frac{\chi_{v}}{L^{2}}$', 'Interpreter', 'latex')
+xlabel('T')
+ylabel('Xm / (L^2)')
