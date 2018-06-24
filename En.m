@@ -3,6 +3,9 @@ function e = En(S)
     
     for i=1:length(S)
         for j=1:length(S)
+            
+            %Para cada spin, considero el spin vecino de arriba (fila i-1)
+            %el de su derecha (columna j+1)
             iup = mod(i - 1 - 1, length(S)) + 1;
             jright = mod(j + 1 - 1, length(S)) + 1;
 

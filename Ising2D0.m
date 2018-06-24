@@ -2,10 +2,6 @@ function [E, M, Cv, Xm] = ising2D0(L,T)
 %Script general para hacer una corrida  a un set de parametros
 %(beta, lado de la red)
 
-%Lado de la red
-%L = 16;
-%T = 2.1;
-
 beta = 1/T;
 
 
@@ -14,6 +10,8 @@ beta = 1/T;
 %espin
 S = 2*(rand(L,L) > 0.5) - 1;
 
+%Condiciones iniciales y vectores para guardar los valores de energia, 
+%magnetizacion, energia^2 y magnetizacion^2 para un valor de T
 npre = 100;
 npasos = 5000;
 energia = zeros(npasos + 1,1);
@@ -34,6 +32,7 @@ magnet(1) = sum(sum(S));
 energia2(1) = energia(1)*energia(1);
 magnet2(1) = magnet(1)*magnet(1);
 
+%Ciclo para calcular el estado de S luego de termalizar
 for n=1:npasos
     [S, dE, dM] = ising2Dpaso(S,beta);
     
@@ -49,6 +48,8 @@ for n=1:npasos
     %end
 end
 
+%Valores medios de los vectores previamente calculados:
+%<E>, <M>, Cv = (1/T^2)*(<E^2> - <E>^2), Xm = (1/T)*(<M^2> - <M>^2)
 E = mean(energia);
 M = mean(magnet);
 E2 = mean(energia2);
