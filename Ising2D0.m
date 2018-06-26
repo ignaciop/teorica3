@@ -1,4 +1,4 @@
-function [E, M, Cv, Xm] = ising2D0(L,T,npasos,a)
+function [E, M, Cv, Xm, corr_func] = ising2D0(L,T,npasos,a)
     %Script general para hacer una corrida  a un set de parametros
     %(beta, lado de la red)
 
@@ -22,7 +22,7 @@ function [E, M, Cv, Xm] = ising2D0(L,T,npasos,a)
     %Pretermalizo
     %La funcion ising2Dpaso hace un nuevo elemento de la cadena de Markov. La tienen que escribir uds!
     for n=1:npre
-        [S, dE, dM] = ising2Dpaso(S,beta);
+        [S, dE, dM,Sis,SiSjs] = ising2Dpaso(S,beta);
     end
 
     %La funcion En calcula la energia de la red. Tambien la tienen que escribir uds!
@@ -33,7 +33,7 @@ function [E, M, Cv, Xm] = ising2D0(L,T,npasos,a)
 
     %Ciclo para calcular el estado de S luego de termalizar
     for n=1:npasos
-        [S, dE, dM] = ising2Dpaso(S,beta);
+        [S, dE, dM,Sis,SiSjs] = ising2Dpaso(S,beta);
 
         energia(n+1) = energia(n) + dE;
         magnet(n+1) = magnet(n) + dM;
@@ -59,6 +59,11 @@ function [E, M, Cv, Xm] = ising2D0(L,T,npasos,a)
     M2 = mean(magnet2);
     Cv = (E2 - E*E)/(T*T);
     Xm = (M2 - M*M)/T;
+    
+    %Variables para calcular la longuitud de correlacion: <Si> y <SiSj>
+    Si_avg = mean(Sis);
+    SiSj_avg = mean(SiSjs);
+    corr_func = abs(SiSj_avg - Si_avg*Si_avg);
 
 
     %Otros plots que pueden/deben hacer, sobreescribe los anteriores.

@@ -1,9 +1,12 @@
-function [S,dE,dM] = ising2Dpaso(S,beta)
+function [S,dE,dM,Sis,SiSjs] = ising2Dpaso(S,beta)
     dM = 0;
     dE = 0;
     
+    Sis = [];
+    SiSjs = [];
+    
     %Realiza el paso para cada spin de S
-    for a=1:length(S)*length(S)
+    for it=1:length(S)*length(S)
         
         %Elijo los indices i,j al azar con la funcion auxiliar definida
         indices = randint(1,2,1,length(S));
@@ -29,5 +32,11 @@ function [S,dE,dM] = ising2Dpaso(S,beta)
             dM = dM + 2*S(i,j);
             dE = dE + dEt;
         end
-    end            
+        
+        S_corr = (S(iup,j)+S(idown,j)+S(i,jleft)+S(i,jright));
+        Si = S(i,j);
+        SiSj = Si * S_corr / 4;
+        Sis = [Sis; Si];
+        SiSjs = [SiSjs; SiSj];
+    end
 end
