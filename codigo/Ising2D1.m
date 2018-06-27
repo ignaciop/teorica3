@@ -2,7 +2,7 @@
 %(beta, lado de la red)
 
 %Lado de la red
-L = 32;
+L = 16;
 
 %Valores de T y vectores iniciales para <E>, <M>, Cv y Xm
 T = 0:0.2:10;
