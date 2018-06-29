@@ -150,7 +150,7 @@ En el caso $T$ = 2.27 = $T_{c}$, se pudo observar que la energ\'ia oscila en tor
 \end{figure}
 
 
-Como es de esperar (bibliografia al grafiquito de pitchfork) en este caso, el valor absoluto de la magnetizaci\'on oscila entre 0 y -1 de manera muy brusca para cada valor de $L$ estudiado, por lo tanto no se puede decir que dicho observable converja para alg\'un valor de $n$; pero s\'i se puede asegurar que este comportamiento oscilatorio se mantiene durante toda la ejecuci\'on del programa con el valor de $T$ considerado en este caso; lo que es consistente con la bibliograf\'ia citada.
+Como es de esperar en este caso, el valor absoluto de la magnetizaci\'on oscila entre 0 y -1 de manera muy brusca para cada valor de $L$ estudiado, por lo tanto no se puede decir que dicho observable converja para alg\'un valor de $n$; pero s\'i se puede asegurar que este comportamiento oscilatorio se mantiene durante toda la ejecuci\'on del programa con el valor de $T$ considerado en este caso; lo que es consistente con la teor\'ia.
 
 \begin{figure}[H]
 \begin{center}
@@ -197,8 +197,6 @@ Para este ejercicio, el r\'egimen mas interesante a estudiar fue el caso $T < T_
 
 \section{Ejercicio: Energ\'ia y magnetizaci\'on en funci\'on de la temperatura}
 
-ver bibliografia del cv y xm
-
 En este ejercicio se tuvieron presentes los resultados del anterior en lo referido a la cantidad de iteraciones necesarias para que el sistema llegue al equilibrio. Por esto, para calcular la energ\'ia y magnetizaci\'on media ($<e> y <m>$ respectivamente), se eligi\'o un $n$ = 3000 para valores de $T$ entre 0 y 10; con pasos de 0.2; debido a que es un numero razonable de iteraciones para que el sistema termalice, llegue al equilibrio y un tiempo extra poder tomar valores medios significativos.
 
 \subsection{Resultados}
@@ -212,7 +210,7 @@ A continuaci\'on, se muestran los resultados adquiridos para $L$ = 16:
 \end{center}
 \end{figure}
 
-Se puede observar que, para $T \rightarrow 0$, la energ\'ia tiende a $-2$; a medida que $T$ aumenta, 
+Se puede observar que, para $T \rightarrow 0$, la energ\'ia media tiende a $-2$; de acuerdo con la teor\'ia (tomando $J$ = 1). En un entorno de Tc, se da un salto hacia un valor mayor; esto se corresponde a la transici\'on de fase, que se observar\'a m\'as adelante como una discontinuidad en los gr\'aficos correspondientes al $C_{v}$. La energ\'ia tiende a estabilizarse alrededor de $-0.2$ cuando $T >> T_{c}$.
 
 \begin{figure}[H]
 \begin{center}
@@ -221,10 +219,10 @@ Se puede observar que, para $T \rightarrow 0$, la energ\'ia tiende a $-2$; a med
 \end{center}
 \end{figure}
 
-Ac\'a se puede ver que la magnetizaci\'on mantiene un valor medio estable en 1 para valores de $T < T_{c}$; esto puede interpretarse como que todos los spines tienen el mismo valor. Al llegar a la temperatura cr\'itica se observa un salto (disconinuidad) en el valor de $<m>$ correspondiente al cambio de fase, convergiendo r\'apidamente a 0 para temperaturas mayores a $T_{c}$, lo que indica la p\'erdida de magnetizaci\'on de la muestra.
+Ac\'a se puede ver que la magnetizaci\'on mantiene un valor medio estable en 1 para valores de $T < T_{c}$; esto puede interpretarse como que todos los spines tienen el mismo valor. Al llegar a la temperatura cr\'itica se observa un salto (discontinuidad) en el valor de $<m>$ correspondiente al cambio de fase, convergiendo r\'apidamente a 0 para temperaturas mayores a $T_{c}$, lo que indica la p\'erdida de magnetizaci\'on de la muestra.
 
 
-Para calcular el calor espec\'ifico y la susceptibilidad magn\'etica, se utilizaron las f\'ormulas dadas por el enunciado, relacion\'andolas de la siguiente manera (biblio de esto):
+Para calcular el calor espec\'ifico y la susceptibilidad magn\'etica, se utilizaron las f\'ormulas dadas por el enunciado, relacion\'andolas de la siguiente manera:
 
 \begin{itemize}
 \item $C_{v} = \frac{\sigma_{E}^{2}}{T^2}$ 
@@ -274,39 +272,54 @@ En ambos casos, el cambio de fase observado en $C_{v}$ y $\chi_{m}$ se dio alred
 
 \section{Ejercicio: Longitud de correlaci\'on en funci\'on de la temperatura}
 
+Para calcular la longitud de correlaci\'on, se eligieron los vecinos a un spin cualquiera en cada iteraci\'on del c\'odigo; calculando primero la funci\'on de correlaci\'on entre ellos. 
+
+A continuaci\'on se presentan los resultados para una red de tama\~no $L$ = 16 y $L$ = 32. La cantidad de iteraciones se mantuvo fija en $n$ = 3000, como en el ejercicio anterior:
+
+\subsection{Resultados}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[height=8cm]{../graficos/Lcorr_L16.jpg}
+\caption[width=5cm]{Longitud de correlaci\'on para $L$ = 36.}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[height=8cm]{../graficos/Lcorr_L32.jpg}
+\caption[width=5cm]{Longitud de correlaci\'on para $L$ = 32.}
+\end{center}
+\end{figure}
+
+\subsection{Conclusiones}
+
+En primer lugar, not\'e que los resultados tienen menor dispersi\'on para $L$ = 32, sobre todo para $T > T_{c}$; lo que permite inferir en primera instancia que a medida que $L$ aumenta, los valores se corresponden en mayor medida a la teor\'ia, la cual indica que en un entorno de $T_{c}$, la longitud de correlacion sigue una ley de potencias y no una exponencial como en el resto de las zonas.
+
+Esto quiere decir que, a medida que la temperatura se acerca a $T_{c}$, la longitud de correlaci\'oon entre espines diverge, lo que implica que espines lejanos est\'an correlacionados, es decir, el estado de uno afecta a otro con una distancia mayor a la de sus primeros o segundos vecinos, por ejemplo. Por tanto, el sistema cerca de una transici\'on 
+de fase pierde memoria de su estructura microsc\'opica y comienza a presentar nuevas correlaciones macrosc\'opicas de largo alcance.
+
 
 \section{Ap\'endice}
 
-\subsection{C\'odigo fuente en Matlab de la funci\'on generadora de n\'umeros enteros aleatorios (/codigo/randint.m)}
+\subsection{C\'odigo fuente de la funci\'on generadora de n\'umeros enteros aleatorios (/codigo/randint.m)}
 
 \lstinputlisting[language=Matlab,breaklines]{../codigo/randint.m}
 
-\subsection{C\'odigo fuente en Matlab de la funci\'on de energ\'ia total del sistema (/codigo/En.m)}
+\subsection{C\'odigo fuente de la funci\'on de energ\'ia total del sistema (/codigo/En.m)}
 
 \lstinputlisting[language=Matlab,breaklines]{../codigo/En.m}
 
-\subsection{C\'odigo fuente en Matlab de la funci\'on de Ising 2D en un paso (/codigo/ising2Dpaso.m)}
+\subsection{C\'odigo fuente de la funci\'on de Ising 2D en un paso (/codigo/ising2Dpaso.m)}
 
 \lstinputlisting[language=Matlab,breaklines]{../codigo/ising2Dpaso.m}
 
-\subsection{C\'odigo fuente en Matlab de la funci\'on de Ising 2D para un valor de T (/codigo/ising2D0.m)}
+\subsection{C\'odigo fuente de la funci\'on de Ising 2D para un valor de T (/codigo/ising2D0.m)}
 
 \lstinputlisting[language=Matlab,breaklines]{../codigo/ising2D0.m}
 
-\subsection{C\'odigo fuente en Matlab de la funcion de Ising 2D para varios valores de T (/codigo/ising2D1.m)}
+\subsection{C\'odigo fuente de la funcion de Ising 2D para varios valores de T (/codigo/ising2D1.m)}
 
 \lstinputlisting[language=Matlab,breaklines]{../codigo/ising2D1.m}
-
-
-
-\newpage
-\section{Bibliograf\'ia}
-\textbf{[I], [II], [III], [IV]} F. S. Crawford. \textit{Ondas – Berkeley Physics Course Vol. 3}. Editorial Revert\'e S.A., 2da edici\'on, Barcelona (1994). P\'ags. 72-80
-
-\textbf{[V]} J. D. Hoffman. \textit{Numerical Methods for Engineers and Scientists}. Editorial Marcel Dekker Inc., Second Edition, (2001). P\'ag. 398
-
-\textbf{[VI]} S. H. Strogatz. \textit{Nonlinear Dynamics and Chaos with Applications to Physics, Biology, Chemistry and Engineering}. Westview Press, Second Edition, (2015). P\'ag. 198
-
-\textbf{[VII]} S. H. Strogatz. \textit{Nonlinear Dynamics and Chaos with Applications to Physics, Biology, Chemistry and Engineering}. Westview Press, Second Edition, (2015). P\'ag. 212
 
 \end{document}
